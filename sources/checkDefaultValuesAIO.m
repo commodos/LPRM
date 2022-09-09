@@ -12,6 +12,10 @@ function [ options ] = checkDefaultValuesAIO( options )
     options.NInputchannels=Ni;
     options.NOutputchannels=No;
     
+    % length is the shortest data of input-output
+    l=min(li,lo);
+
+    
     % initializing number of realizations variable
     if(~isfield(options,'R')) options.R=0; end 
     if(isempty(options.R)) options.R=0; end 
@@ -30,8 +34,6 @@ function [ options ] = checkDefaultValuesAIO( options )
         if options.N==0 options.N=l; warning('Nonperiodic data detected.'); end        
     end
     
-    % length is the shortest data of input-output
-    l=min(li,lo);
    
     % estimating the number of periods
     if options.N>0 && options.P==0 options.P=Estimate_P(options.u,options.N); end
