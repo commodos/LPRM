@@ -42,9 +42,9 @@ function [options] = LPRM(varargin)
 %   gammaSquare: multiple coherence of the processed data, size floor(N/2)*NOutputchannels*NInputchannels
 %
 %
-%   version 1.2 
-% 	Dr. PÈter Zolt·n CSURCSIA, 2010
-%   Last modified November 2021 
+%   version 1.3
+% 	Dr. P√©ter Zolt√°n CSURCSIA, 2010
+%   Last modified September 2022 
 
 % add the foler of the auxiliary source codes
 addpath sources;
