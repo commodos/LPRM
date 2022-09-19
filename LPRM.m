@@ -170,12 +170,20 @@ end
     %% input-output spectra estimation
     options.U_est(options.ind.all,:)=squeeze(mean(U_mean(:,options.ind.all,:),1));
     options.Y_est(options.ind.all,:)=squeeze(mean(Y_mean(:,options.ind.all,:),1));
+    if(options.estimateTransient)
+        for ry=1:options.NOutputchannels
+            options.T_est(:,ry)=squeeze(max(max(T_m(:,:,:,ry),[],3),[],1));
+        end
+    end
+
     
     % store the corresponding variables per realization
     options.G_m=G_m;
     options.U_m=U_m;
     options.Y_m=Y_m;
-    
+    options.T_m=T_m;
+
+
     % calculate the FRM and total/noise std's
     for ru = 1:options.NInputchannels
         for ry = 1:options.NOutputchannels
