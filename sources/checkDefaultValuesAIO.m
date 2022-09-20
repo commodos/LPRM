@@ -52,9 +52,18 @@ function [ options ] = checkDefaultValuesAIO( options )
     % if nothing works, then error
     if options.N==0 || options.P==0 || options.R==0 error('Automated data seqmentation failed'); end
 
+    if(isfield(options,'estimateTransient'))
+       if options.estimateTransient
+           if ~isfield(options,'Ptr')
+               options.Ptr=0;
+           end
+       end
+    end
     
-    if options.N>0 && options.P>1 && ~isfield(options,'Ptr') options.Ptr=Estimate_Ptr(options.y,options.P,options.N); end
+    if options.N>0 && options.P>2 && ~isfield(options,'Ptr') options.Ptr=Estimate_Ptr(options.y,options.P,options.N); end
     if options.N>0 && options.P==1 && ~isfield(options,'Ptr') options.Ptr=0; end
+    if ~isfield(options,'Ptr') options.Ptr=0; end
+
     if options.N*options.P*options.R>l error('Seqmentation parameters are incompatible with data'); end
 
     % frequency scale
@@ -69,8 +78,17 @@ function [ options ] = checkDefaultValuesAIO( options )
     if isempty(options.solver) options = determineSolver(options); end
 
     % initialize estimateTransient options
-    if(~isfield(options,'estimateTransient')) options.estimateTransient=0; end
+    if(~isfield(options,'estimateTransient')) 
+         if options.P<3 
+             options.estimateTransient=1
+         elseif(options.P-options.Ptr)<2 
+             options.estimateTransient=1;
+         else 
+             options.estimateTransient=0; 
+         end
+    end
     
+
     % determine the degree and bandwidth parameters
     if(~isfield(options,'degree')) options.degree=0; end %degree of poly       
     if(options.degree==0) options.degree=2; end %degree
@@ -87,5 +105,4 @@ function [ options ] = checkDefaultValuesAIO( options )
     options.ind.all = 1:floor(options.N/2); % all frequencies
     
     
-end
-
+    end
