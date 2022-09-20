@@ -9,8 +9,8 @@ function [G,T] = lrm_fd(U,Y,lines,LRM,d,bw,Tr,fs)
 %   BW: optional, bandwidth of the sliding window, default (D+1)*(#Input+LRM+TR)+LRM*d
 %   TR: optional, estimate transient if 1
 %
-%   version 1.0
-% 	Dr. PÈter Zolt·n CSURCSIA, January 2020
+%   version 1.1
+% 	Dr. P√©ter Zolt√°n CSURCSIA, September 2022
 
 U=squeeze(U);
 Y=squeeze(Y);
@@ -37,7 +37,7 @@ for k = lines
     f_selected=k+r;
 
     
-    K=[kron(squeeze(U(f_selected,:)),ones(1,d+1)).*POLY POLY_T];
+    K=[kron(squeeze(U(f_selected,:)),ones(1,d+1)).*POLY];
     L=Y(f_selected);                                        
     
     if(LRM)
@@ -45,11 +45,14 @@ for k = lines
         -reshape(repmat(L,d*Ni,1),bw, d*Ni).*POLY_Y];
     end
 
+    K=[K POLY_T];
+        
     theta=K\L;
     G(:,k)=theta(1:(d+1):(d+1)*(Ni));   
-    if(Tr) T(k)=mean(theta((d+1)*(Ni+1):(d+1):(d+1)*(Ni+1))); end 
+    if(Tr) T(k)=theta(end-d); end     
 
 end
+
 
 function [r POLY  POLY_T POLY_Y] = lpm_create_polynomials(k,lines,LRM,d,bw,Tr,Ni)
 % lpm_create_polynomials 
@@ -58,8 +61,8 @@ function [r POLY  POLY_T POLY_Y] = lpm_create_polynomials(k,lines,LRM,d,bw,Tr,Ni
 %   TR: estimate transient if 1
 %   LRM: LRM if 1, LPM is 0
 %
-%   version 1.0
-% 	Dr. PÈter Zolt·n CSURCSIA, March 2020
+%   version 1.1
+% 	Dr. P√©ter Zolt√°n CSURCSIA, September 2022
 
 POLY_T=[];
 POLY_Y=[];
@@ -77,18 +80,14 @@ polynomial=[];
 polynomial_Y=[]; 
 
 for order=0:d polynomial(:,order+1)=r.^order; end
+
 POLY=repmat(polynomial,1,Ni); 
+
+if Tr
+    POLY_T=polynomial;
+end
 
 if LRM
     for order=1:d polynomial_Y(:,order)=r.^order; end
     POLY_Y=repmat(polynomial_Y,1,Ni);     
 end
-
-if Tr
-    POLY_T=POLY;
-end
-
-
-
-
-
