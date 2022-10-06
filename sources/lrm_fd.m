@@ -9,7 +9,7 @@ function [G,T] = lrm_fd(U,Y,lines,LRM,d,bw,Tr,fs)
 %   BW: optional, bandwidth of the sliding window, default (D+1)*(#Input+LRM+TR)+LRM*d
 %   TR: optional, estimate transient if 1
 %
-%   version 1.1
+%   version 1.2
 % 	Dr. Péter Zoltán CSURCSIA, September 2022
 
 U=squeeze(U);
