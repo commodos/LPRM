@@ -41,8 +41,7 @@ for k = lines
     L=Y(f_selected);                                        
     
     if(LRM)
-        K=[K ...
-        -reshape(repmat(L,d*Ni,1),bw, d*Ni).*POLY_Y];
+        K=[K -repmat(L,1,d).*POLY_Y];
     end
 
     K=[K POLY_T];
@@ -89,5 +88,5 @@ end
 
 if LRM
     for order=1:d polynomial_Y(:,order)=r.^order; end
-    POLY_Y=repmat(polynomial_Y,1,Ni);     
+    POLY_Y=polynomial_Y;     
 end
