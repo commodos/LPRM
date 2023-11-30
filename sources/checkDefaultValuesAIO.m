@@ -94,10 +94,10 @@ function [ options ] = checkDefaultValuesAIO( options )
     if(options.degree==0) options.degree=2; end %degree
     if(~isfield(options,'bw')) options.bw=0; end %degree of poly    
     if(strcmp(upper(options.solver),'LPM') && options.bw==0)         
-       options.bw=(options.degree+1)*(options.NInputchannels+options.estimateTransient)+1;         
+       options.bw=(options.degree+1)*(options.NInputchannels+options.estimateTransient)+9;         
     end
     if(strcmp(upper(options.solver),'LRM') && options.bw==0)         
-        options.bw=(options.degree+1)*(options.NInputchannels+options.estimateTransient)+options.degree+1; 
+        options.bw=(options.degree+1)*(options.NInputchannels+options.estimateTransient)+options.degree+9; 
     end       
     
 
