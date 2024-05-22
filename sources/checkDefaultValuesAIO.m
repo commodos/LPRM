@@ -80,7 +80,7 @@ function [ options ] = checkDefaultValuesAIO( options )
     % initialize estimateTransient options
     if(~isfield(options,'estimateTransient')) 
          if options.P<3 
-             options.estimateTransient=1
+             options.estimateTransient=1;
          elseif(options.P-options.Ptr)<2 
              options.estimateTransient=1;
          else 
@@ -90,8 +90,9 @@ function [ options ] = checkDefaultValuesAIO( options )
     
 
     % determine the degree and bandwidth parameters
-    if(~isfield(options,'degree')) options.degree=0; end %degree of poly       
-    if(options.degree==0) options.degree=2; end %degree
+    if(~isfield(options,'degree')) options.degree=2; end %degree of poly in transfer function
+    if(~isfield(options,'degree_tr')) options.degree_tr=options.degree; end %degree of poly in transient    
+
     if(~isfield(options,'bw')) options.bw=0; end %degree of poly    
     if(strcmp(upper(options.solver),'LPM') && options.bw==0)         
        options.bw=(options.degree+1)*(options.NInputchannels+options.estimateTransient)+9;         
