@@ -125,7 +125,7 @@ if (strcmp(upper(options.solver),'LPM') || strcmp(upper(options.solver),'LRM') |
             % go over different periods
             for index_p=1:options.P_used
                 for ry=1:options.NOutputchannels
-                    [Gk(index_p,ry,:,:) T_m(m,:,index_p,ry)]=lrm_fd(U_m(m,:,index_p,:),Y_m(m,:,index_p,ry),options.ind.exc,strcmp(upper(options.solver),'LRM'),options.degree,options.bw,options.estimateTransient,options.fs);
+                    [Gk(index_p,ry,:,:) T_m(m,:,index_p,ry)]=lrm_fd(U_m(m,:,index_p,:),Y_m(m,:,index_p,ry),options.ind.exc,strcmp(upper(options.solver),'LRM'),options.degree,options.degree_tr,options.bw,options.estimateTransient,options.fs);
                 end
             end
             
