@@ -22,7 +22,7 @@ function [options] = LPRM(varargin)
 %   solver: default: automatically determined 
 %     LPM: Local Polynomial Method is used
 %     LRM: Local Rational Method is used
-%   bw and degree parameters: bandwith and degree (default automatically set)
+%   bw, degree and degree_tr parameters: bandwith and degree (default automatically set)
 %   estimateTransient: default 1 (1=estimate the transient)
 %   
 %   Output paramters in the AIO structure:
